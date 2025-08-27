@@ -1,401 +1,376 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>巡回監査チェックリスト（スマホ用）</title>
-  <style>
-    :root{
-      --bg:#f7f7f8;--card:#ffffff;--ink:#1f2937;--muted:#6b7280;--ok:#16a34a;--ng:#dc2626;--na:#6b7280;--pri:#2563eb;--line:#e5e7eb;--warn:#f59e0b;
-    }
-    html,body{height:100%;}
-    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Noto Sans JP","Apple Color Emoji","Segoe UI Emoji";}
-    .wrap{max-width:820px;margin:0 auto;padding:12px 12px 88px;}
-    header{position:sticky;top:0;background:var(--bg);padding:8px 12px;border-bottom:1px solid var(--line);z-index:10;}
-    h1{font-size:18px;margin:4px 0 8px;}
-    .grid{display:grid;gap:8px;}
-    .g2{grid-template-columns:1fr 1fr;}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;}
-    label.small{font-size:12px;color:var(--muted);display:block;margin-bottom:6px;}
-    input[type="text"],input[type="date"],select,textarea{width:100%;padding:12px 12px;border:1px solid var(--line);border-radius:10px;background:white;font-size:16px;}
-    textarea{min-height:72px;}
-    .toolbar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:saturate(180%) blur(8px);border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;z-index:20;}
-    .toolbar button{flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);font-size:15px;background:var(--card);}    
-    .toolbar button.primary{background:var(--pri);border-color:var(--pri);color:#fff;}
-    .toolbar button.warn{background:#fff8eb;border-color:#ffe3b3;color:#7a5200;}
-    .sec-title{display:flex;align-items:center;justify-content:space-between;margin:16px 0 8px;}
-    .sec-title h2{font-size:16px;margin:0;}
-    .pill{font-size:12px;color:var(--muted);}    
-    .item{border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0;background:#fff;}
-    .item-top{display:flex;gap:10px;align-items:center;}
-    .item-title{flex:1;font-size:15px;}
-    .seg{display:inline-grid;grid-auto-flow:column;border:1px solid var(--line);border-radius:999px;overflow:hidden;}
-    .seg input{display:none;}
-    .seg label{padding:8px 10px;font-size:13px;cursor:pointer;}
-    .seg input:checked + label{background:#eef2ff;color:#1e40af;font-weight:600;}
-    .seg .ok input:checked + label{background:#ecfdf5;color:#065f46;}
-    .seg .ng input:checked + label{background:#fef2f2;color:#7f1d1d;}
-    .note{margin-top:8px;}
-    .help{margin-top:6px;color:var(--muted);font-size:12px;}
-    .req{font-size:12px;color:var(--ng);margin-top:4px;display:none;}
-    .req.show{display:block;}
-    .muted{color:var(--muted);}
-    .progress{height:10px;background:#eef2ff;border-radius:999px;overflow:hidden;}
-    .progress > div{height:100%;background:var(--pri);width:0;transition:width .2s;}
-    .chips{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--muted);}
-    .chip{padding:4px 8px;border:1px solid var(--line);border-radius:999px;background:#fff;}
-    .stat{display:flex;gap:8px;}
-    .stat b{font-size:15px;}
-    .sig-pad{border:1px dashed var(--line);border-radius:8px;height:120px;background:#fff;touch-action:none;}
-    .thumbs{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
-    .thumbs img{width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid var(--line);}
-    .danger{color:var(--ng)}
-    @media print{
-      .toolbar, header{display:none !important}
-      body{background:#fff;}
-      .wrap{padding:0;}
-      .item{page-break-inside:avoid}
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>パスタ・ランダムセレクター（カロリー計算付き）</title>
+<style>
+  :root{
+    --brand:#578899; /* ベースカラー */
+    --brand-dark:#3f6773;
+    --ink:#1e2a2f;
+    --muted:#6b7c86;
+    --bg:#f5f7f9;
+    --card:#ffffff;
+    --good:#0a7f3f;
+  }
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,'Hiragino Kaku Gothic ProN','Noto Sans JP','Yu Gothic',Meiryo,sans-serif;}
+  .wrap{max-width:980px;margin:0 auto;padding:16px;}
+  .title{font-size: clamp(18px, 3.6vw, 28px);font-weight:700;margin:6px 0 12px;letter-spacing:.02em;}
+  .subtitle{color:var(--muted);margin:0 0 18px;font-size:14px}
+  .grid{display:grid;gap:12px;grid-template-columns: 1fr;}
+  @media(min-width:860px){ .grid{grid-template-columns: 1.2fr 1fr;} }
+  .card{background:var(--card);border-radius:14px;box-shadow: 0 2px 12px rgba(0,0,0,.06);padding:14px;}
+  .card h2{font-size:16px;margin:0 0 10px;color:var(--brand-dark)}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}
+  label{font-size:13px;color:var(--muted)}
+  input[type="number"], select{
+    appearance:none;
+    border:1px solid #d6dde3;border-radius:10px;
+    padding:10px 12px;font-size:16px;background:#fff;min-width:90px;
+  }
+  input[type="range"]{width:180px}
+  .btn{
+    border:0;border-radius:12px;padding:12px 16px;font-weight:700;
+    background:var(--brand);color:#fff;cursor:pointer;transition: transform .03s ease, filter .15s;
+  }
+  .btn:hover{filter:brightness(1.08)}
+  .btn:active{transform: translateY(1px)}
+  .btn.secondary{background:#e9eef2;color:#1c2b33;font-weight:650}
+  .btn.ghost{background:transparent;border:1px solid #c7d1d8;color:#2a3a41}
+  .pill{display:inline-block;background:#eef4f7;border-radius:999px;padding:.2em .7em;font-size:12px;color:#40606c;margin-left:6px}
+  .kpi{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .kpi .big{font-size: clamp(26px, 6vw, 40px);font-weight:800;color:var(--brand-dark)}
+  .kpi .unit{color:var(--muted)}
+  .list{max-height:420px;overflow:auto;border:1px dashed #d5dfe6;border-radius:12px;padding:6px}
+  table{border-collapse:collapse;width:100%}
+  th,td{padding:8px 6px;border-bottom:1px solid #eef1f4;font-size:14px}
+  th{position:sticky;top:0;background:#f3f7fa;font-weight:700}
+  .right{text-align:right}
+  .muted{color:var(--muted)}
+  .tag{display:inline-block;border:1px solid #d7e2e7;border-radius:999px;padding:.2em .7em;font-size:12px;margin:2px}
+  .breakdown{font-size:14px;line-height:1.7}
+  .footer{margin-top:14px;font-size:12px;color:#6c7a82;text-align:center}
+  .divider{height:1px;background:#e8eef2;margin:10px 0}
+  .badge{background:#eff9f2;color:var(--good);font-weight:700;padding:.25em .6em;border-radius:999px;font-size:12px}
+  .flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .nowrap{white-space:nowrap}
+</style>
 </head>
 <body>
-  <header>
-    <h1>巡回監査チェックリスト</h1>
-    <div class="grid g2">
+  <div class="wrap">
+    <div class="title">パスタ・ランダムセレクター（カロリー計算付き）</div>
+    <div class="subtitle">ワンタップでパスタ＆トッピングをランダム選択。編集可能なカロリーで合計値を即時計算します（概算）。</div>
+
+    <div class="grid">
+      <!-- Left: Controls -->
       <div class="card">
-        <label class="small">顧問先（必須）</label>
-        <input id="client" type="text" placeholder="例）ABC株式会社"/>
+        <h2>① 基本設定</h2>
+        <div class="row">
+          <div class="flex">
+            <label class="nowrap">パスタの種類</label>
+            <span id="pastaName" class="tag">未選択</span>
+            <button class="btn secondary" id="randomBtn">🎲 ランダム選択</button>
+            <button class="btn ghost" id="rerollToppingsBtn">🔁 トッピングだけ再抽選</button>
+          </div>
+        </div>
+        <div class="row">
+          <label>ゆで上がり量（g）</label>
+          <input type="number" id="grams" value="180" min="50" max="600" step="10" />
+          <label>カロリー（100gあたり）</label>
+          <input type="number" id="kcalPer100" value="160" min="50" max="300" step="1" />
+          <span class="pill">編集可</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <h2>② トッピング（編集可）</h2>
+        <div class="row">
+          <label>ランダム選択する個数：</label>
+          <input type="range" id="randCount" min="0" max="5" value="2" />
+          <span class="badge"><span id="randCountLabel">2</span> 個</span>
+          <button class="btn ghost" id="clearAllBtn">全て外す</button>
+        </div>
+
+        <div class="list">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:38px">選択</th>
+                <th>トッピング</th>
+                <th class="right" style="width:140px">カロリー（1食分）</th>
+              </tr>
+            </thead>
+            <tbody id="toppingRows"></tbody>
+          </table>
+        </div>
+
+        <div class="row">
+          <button class="btn secondary" id="addRowBtn">＋ トッピングを追加</button>
+        </div>
       </div>
-      <div class="card">
-        <label class="small">監査日</label>
-        <input id="visitDate" type="date"/>
-      </div>
-      <div class="card">
-        <label class="small">担当者</label>
-        <input id="auditor" type="text" placeholder="担当者名"/>
-      </div>
-      <div class="card">
-        <label class="small">バージョン／進捗</label>
-        <div class="chips"><span class="chip" id="templateVer">v1</span>
-          <div class="progress" style="flex:1"><div id="progbar"></div></div>
+
+      <!-- Right: Result -->
+      <div class="card" id="resultCard">
+        <h2>③ 結果</h2>
+        <div class="kpi">
+          <div class="big" id="totalKcal">0</div>
+          <div class="unit">kcal / 1食</div>
+        </div>
+        <div class="breakdown" id="breakdown"></div>
+        <div class="row">
+          <button class="btn" id="copyBtn">コピー</button>
+          <button class="btn ghost" id="resetBtn">リセット</button>
+        </div>
+
+        <div class="divider"></div>
+        <div class="muted" style="font-size:12px">
+          ※ カロリーは概算です。値は食材や調理方法で大きく変わります。必要に応じて各数値を編集してください。
         </div>
       </div>
     </div>
-  </header>
 
-  <div class="wrap" id="app">
-    <div class="card" style="margin-top:12px">
-      <div class="stat">
-        <span class="muted">回答数:</span><b id="answered">0</b>/<span id="total">0</span>
-        <span class="muted" style="margin-left:8px">OK:</span><b id="cntOK">0</b>
-        <span class="muted">NG:</span><b id="cntNG" class="danger">0</b>
-        <span class="muted">N/A:</span><b id="cntNA">0</b>
-      </div>
-    </div>
-
-    <div id="sections"></div>
-
-    <div class="card">
-      <label class="small">監査メモ（全体）</label>
-      <textarea id="globalNote" placeholder="所感・要改善点・次回アクションなど"></textarea>
-    </div>
-
-    <div class="card">
-      <label class="small">署名（顧問先担当者）</label>
-      <canvas id="sig" class="sig-pad"></canvas>
-      <div class="chips" style="margin-top:8px">
-        <button id="sigClear" type="button">署名クリア</button>
-      </div>
-    </div>
-
-    <details class="card">
-      <summary>テンプレート編集（上級者向け）</summary>
-      <p class="muted">JSONを編集してチェック項目をカスタマイズできます。編集後は「テンプレート読込」。</p>
-      <textarea id="tplEditor" style="min-height:200px"></textarea>
-      <div class="chips" style="margin-top:8px">
-        <button id="tplLoad">テンプレート読込</button>
-        <button id="tplExport">テンプレート書出</button>
-        <button id="tplReset" class="warn">初期化</button>
-      </div>
-    </details>
-  </div>
-
-  <div class="toolbar">
-    <button id="save">下書き保存</button>
-    <button id="export" class="primary">JSON書出</button>
-    <button id="csv">CSV書出</button>
-    <button id="print" class="warn">PDF印刷</button>
-    <button id="reset" class="" style="flex:0 0 auto">リセット</button>
+    <div class="footer">v1.0 / 2025-08-27 — © Matsumoto Kaikei Tools</div>
   </div>
 
 <script>
-// ====== 1) 初期テンプレート（自由に編集可） ======
-const DEFAULT_TEMPLATE = [
-  {section:"基本確認", items:[
-    {id:"policy", label:"会計方針・運用ルールの変更有無を確認", help:"変更があれば記録・承認文書を保存", requireNoteIf:"NG"},
-    {id:"backup", label:"会計データのバックアップ運用を確認", help:"自動/手動の頻度・保管先・復元テスト", requireNoteIf:"NG"},
-  ]},
-  {section:"会計記録", items:[
-    {id:"voucher", label:"証憑（請求書・領収書・契約書）保存状況", help:"電子帳簿保存法の要件確認（スキャナ保存/電子取引）", requireNoteIf:"NG"},
-    {id:"books", label:"月次仕訳の記帳遅延の有無", help:"未計上や仮勘定の棚上げを点検", requireNoteIf:"NG"},
-    {id:"recon", label:"預金残高の通帳突合・現金実査", help:"差異は原因と処理を記録", requireNoteIf:"NG"}
-  ]},
-  {section:"売上・入金", items:[
-    {id:"sales-docs", label:"請求書控え・売上計上基準の妥当性", help:"検収/出荷/役務完了などの基準", requireNoteIf:"NG"},
-    {id:"ar", label:"入金消込と売掛金年齢表の確認", help:"滞留債権の要管理・貸倒可能性", requireNoteIf:"NG"}
-  ]},
-  {section:"仕入・経費・支払", items:[
-    {id:"ap", label:"支払承認フロー・証憑と支払の突合", help:"権限者の承認印跡など", requireNoteIf:"NG"},
-    {id:"tax", label:"消費税区分の誤り有無（課/非/免・軽減）", help:"不課税・対象外の混同に注意", requireNoteIf:"NG"}
-  ]},
-  {section:"人事・労務", items:[
-    {id:"payroll", label:"給与計算の根拠資料・社会保険/源泉税の適正", help:"入退社手続・マイナンバー管理", requireNoteIf:"NG"}
-  ]},
-  {section:"経営管理", items:[
-    {id:"budget", label:"予実管理の実施（限界利益・固定費の把握）", help:"目標・KPI・差異分析", requireNoteIf:"NG"},
-    {id:"action", label:"前回指摘事項の是正状況", help:"未完了の改善アクションを洗い出し", requireNoteIf:"NG"}
-  ]},
-];
+(() => {
+  // ---- Pasta shapes ----
+  const PASTA_SHAPES = [
+    "スパゲッティ","リングイネ","フェットチーネ","タリアテッレ","カッペリーニ",
+    "ブカティーニ","ペンネ","フジッリ","コンキリエ","リガトーニ","オレキエッテ",
+    "ファルファッレ","ニョッキ（じゃがいも）","ラザニア（板）"
+  ];
 
-// ====== 2) 状態 ======
-let TEMPLATE = JSON.parse(localStorage.getItem('巡回監査:TEMPLATE')||'null') || DEFAULT_TEMPLATE;
-const state = {answers:{}, notes:{}, photos:{}, meta:{client:"",visitDate:"",auditor:"",globalNote:"",signature:""}};
+  // ---- Default toppings (name, kcal per serving) ----
+  const DEFAULT_TOPPINGS = [
+    ["オリーブオイル（大さじ1）", 120],
+    ["粉チーズ/パルメザン（大さじ2・約16g）", 80],
+    ["ベーコン（2枚・約30g）", 120],
+    ["鶏むね照り焼き（50g）", 110],
+    ["エビ（50g）", 60],
+    ["ツナ（水煮1/2缶）", 70],
+    ["きのこソテー（80g）", 35],
+    ["にんにく（1片）", 10],
+    ["トマトソース（1/2カップ）", 80],
+    ["クリームソース（1/2カップ）", 200],
+    ["ペスト（ジェノベーゼ 1/4カップ）", 240],
+    ["バター（10g）", 75],
+    ["明太子（25g）", 40],
+    ["海苔（適量）", 5],
+  ];
 
-// ====== 3) 要素取得 ======
-const el = id=>document.getElementById(id);
-const sectionsEl = el('sections');
+  // ---- State ----
+  const el = {
+    pastaName: document.getElementById('pastaName'),
+    grams: document.getElementById('grams'),
+    kcalPer100: document.getElementById('kcalPer100'),
+    toppingRows: document.getElementById('toppingRows'),
+    totalKcal: document.getElementById('totalKcal'),
+    breakdown: document.getElementById('breakdown'),
+    randCount: document.getElementById('randCount'),
+    randCountLabel: document.getElementById('randCountLabel'),
+    clearAllBtn: document.getElementById('clearAllBtn'),
+    addRowBtn: document.getElementById('addRowBtn'),
+    randomBtn: document.getElementById('randomBtn'),
+    rerollToppingsBtn: document.getElementById('rerollToppingsBtn'),
+    copyBtn: document.getElementById('copyBtn'),
+    resetBtn: document.getElementById('resetBtn'),
+  };
 
-// ====== 4) UI構築 ======
-function render(){
-  sectionsEl.innerHTML='';
-  const totalItems = TEMPLATE.reduce((s,sec)=>s+sec.items.length,0);
-  el('total').textContent = totalItems;
+  function makeRow(name, kcal, checked=false){
+    const tr = document.createElement('tr');
 
-  TEMPLATE.forEach((sec,si)=>{
-    const secBox = document.createElement('section');
-    const title = document.createElement('div');
-    title.className='sec-title';
-    title.innerHTML = `<h2>${si+1}. ${sec.section}</h2><span class="pill">${(state.meta.client||'—')}</span>`;
-    sectionsEl.appendChild(title);
+    const tdCheck = document.createElement('td');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = checked;
+    cb.addEventListener('change', calc);
+    tdCheck.appendChild(cb);
 
-    sec.items.forEach(item=>{
-      const box = document.createElement('div');
-      box.className='item';
-      box.dataset.itemId=item.id;
-      box.innerHTML = `
-        <div class="item-top">
-          <div class="item-title">${item.label}</div>
-          <div class="seg">
-            <span class="ok"><input type="radio" name="${item.id}" id="${item.id}_ok" value="OK"><label for="${item.id}_ok">OK</label></span>
-            <span class="ng"><input type="radio" name="${item.id}" id="${item.id}_ng" value="NG"><label for="${item.id}_ng">NG</label></span>
-            <span class="na"><input type="radio" name="${item.id}" id="${item.id}_na" value="NA"><label for="${item.id}_na">N/A</label></span>
-          </div>
-        </div>
-        ${item.help?`<div class="help">${item.help}</div>`:''}
-        <div class="note"><textarea placeholder="メモ（必要に応じて記入）" data-note="${item.id}"></textarea></div>
-        <div class="chips" style="margin-top:6px">
-          <label class="small">写真添付<input type="file" accept="image/*" capture="environment" data-photo="${item.id}" multiple></label>
-        </div>
-        <div class="thumbs" data-thumbs="${item.id}"></div>
-        <div class="req" id="req_${item.id}">NG 選択時はメモ（および可能なら写真）が必須です</div>
-      `;
-      sectionsEl.appendChild(box);
+    const tdName = document.createElement('td');
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.value = name;
+    nameInput.style.width = '100%';
+    nameInput.addEventListener('input', calc);
+    tdName.appendChild(nameInput);
+
+    const tdKcal = document.createElement('td');
+    tdKcal.className = 'right';
+    const kcalInput = document.createElement('input');
+    kcalInput.type = 'number';
+    kcalInput.min = '0';
+    kcalInput.step = '1';
+    kcalInput.value = kcal;
+    kcalInput.style.textAlign = 'right';
+    kcalInput.style.width = '110px';
+    kcalInput.addEventListener('input', calc);
+    tdKcal.appendChild(kcalInput);
+
+    tr.appendChild(tdCheck);
+    tr.appendChild(tdName);
+    tr.appendChild(tdKcal);
+    return tr;
+  }
+
+  function initToppings(){
+    el.toppingRows.innerHTML = '';
+    DEFAULT_TOPPINGS.forEach(([n,k]) => el.toppingRows.appendChild(makeRow(n,k,false)));
+  }
+
+  function pickRandomPasta(){
+    const idx = Math.floor(Math.random() * PASTA_SHAPES.length);
+    const name = PASTA_SHAPES[idx];
+    el.pastaName.textContent = name;
+  }
+
+  function pickRandomToppings(count){
+    const rows = Array.from(el.toppingRows.querySelectorAll('tr'));
+    rows.forEach(r => r.querySelector('input[type="checkbox"]').checked = false);
+    // Fisher-Yates shuffle
+    const indices = rows.map((_,i)=>i);
+    for(let i=indices.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [indices[i],indices[j]] = [indices[j],indices[i]];
+    }
+    indices.slice(0, Math.min(count, rows.length)).forEach(i => {
+      rows[i].querySelector('input[type="checkbox"]').checked = true;
     });
-  });
+  }
 
-  // 既存データを復元
-  Object.entries(state.answers).forEach(([id,val])=>{
-    const r = document.querySelector(`input[name="${id}"][value="${val}"]`);
-    if(r) r.checked = true;
-  });
-  Object.entries(state.notes).forEach(([id,txt])=>{
-    const t = document.querySelector(`textarea[data-note="${id}"]`);
-    if(t) t.value = txt;
-  });
-  Object.entries(state.photos).forEach(([id,arr])=>{
-    const holder = document.querySelector(`[data-thumbs="${id}"]`);
-    if(holder){
-      arr.forEach(src=>{
-        const img = new Image();img.src=src;holder.appendChild(img);
-      });
+  function format(num){
+    return Math.round(num).toLocaleString('ja-JP');
+  }
+
+  function calc(){
+    const grams = Number(el.grams.value || 0);
+    const kcal100 = Number(el.kcalPer100.value || 0);
+    const base = grams * kcal100 / 100;
+
+    let tops = [];
+    let topsSum = 0;
+    el.toppingRows.querySelectorAll('tr').forEach(tr => {
+      const cb = tr.querySelector('input[type="checkbox"]');
+      const name = tr.querySelector('input[type="text"]').value.trim() || 'トッピング';
+      const kcal = Number(tr.querySelector('input[type="number"]').value || 0);
+      if(cb.checked){
+        tops.push({name, kcal});
+        topsSum += kcal;
+      }
+    });
+
+    const total = base + topsSum;
+
+    // KPI
+    el.totalKcal.textContent = format(total);
+
+    // Breakdown
+    const pastaN = el.pastaName.textContent || '（未選択のパスタ）';
+    let html = `
+      <div><strong>${pastaN}</strong>：${format(base)} kcal（${format(grams)}g × ${format(kcal100)} kcal/100g）</div>
+    `;
+    if(tops.length){
+      html += `<div style="margin-top:6px"><strong>トッピング</strong>：</div>`;
+      tops.forEach(t => html += `<div>・${escapeHtml(t.name)} … ${format(t.kcal)} kcal</div>`);
+      html += `<div class="divider"></div>`;
+      html += `<div>トッピング小計：<strong>${format(topsSum)}</strong> kcal</div>`;
+    }else{
+      html += `<div class="muted" style="margin-top:6px">※ トッピングが未選択です</div>`;
     }
+    document.getElementById('breakdown').innerHTML = html;
+  }
+
+  function escapeHtml(str){
+    return str.replace(/[&<>"']/g, m => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[m]));
+  }
+
+  function copyResult(){
+    const grams = Number(el.grams.value || 0);
+    const kcal100 = Number(el.kcalPer100.value || 0);
+    const base = grams * kcal100 / 100;
+    const pastaN = el.pastaName.textContent || '（未選択のパスタ）';
+    let lines = [];
+    lines.push(`本日のパスタ：${pastaN}`);
+    lines.push(`ゆで上がり量：${grams}g（${kcal100}kcal/100g）`);
+    // toppings
+    let tops = [];
+    el.toppingRows.querySelectorAll('tr').forEach(tr => {
+      const cb = tr.querySelector('input[type="checkbox"]');
+      if(cb.checked){
+        const name = tr.querySelector('input[type="text"]').value.trim() || 'トッピング';
+        const kcal = Number(tr.querySelector('input[type="number"]').value || 0);
+        tops.push({name,kcal});
+      }
+    });
+    if(tops.length){
+      lines.push('トッピング：');
+      tops.forEach(t => lines.push(`・${t.name} … ${t.kcal} kcal`));
+      const sum = tops.reduce((a,b)=>a+b.kcal,0);
+      lines.push(`トッピング小計：${sum} kcal`);
+    }else{
+      lines.push('トッピング：なし');
+    }
+    const total = Math.round(base + (tops.reduce((a,b)=>a+b.kcal,0)));
+    lines.push(`合計：${total} kcal`);
+    const text = lines.join('\n');
+
+    navigator.clipboard.writeText(text).then(()=>{
+      const original = el.copyBtn.textContent;
+      el.copyBtn.textContent = 'コピーしました ✔';
+      setTimeout(()=> el.copyBtn.textContent = original, 1400);
+    }).catch(()=>{
+      alert('コピーに失敗しました。');
+    });
+  }
+
+  function resetAll(){
+    el.pastaName.textContent = '未選択';
+    el.grams.value = 180;
+    el.kcalPer100.value = 160;
+    initToppings();
+    calc();
+  }
+
+  // ---- Event wiring ----
+  el.randCount.addEventListener('input', () => {
+    el.randCountLabel.textContent = el.randCount.value;
   });
 
-  updateStats();
-  el('tplEditor').value = JSON.stringify(TEMPLATE, null, 2);
-}
+  el.randomBtn.addEventListener('click', () => {
+    pickRandomPasta();
+    const n = Number(el.randCount.value || 0);
+    pickRandomToppings(n);
+    calc();
+  });
 
-// ====== 5) 入力ハンドラ ======
-sectionsEl.addEventListener('change', (e)=>{
-  const t=e.target;
-  // 1) ラジオ（OK/NG/NA）
-  if(t.name && (t.type==='radio')){
-    state.answers[t.name]=t.value;  
-    validateItem(t.name);
-    saveDraft(false);
-    updateStats();
-  }
-  // 2) メモ
-  if(t.dataset && t.dataset.note){
-    state.notes[t.dataset.note]=t.value;
-    validateItem(t.dataset.note);
-    saveDraft(false);
-  }
-  // 3) 写真
-  if(t.dataset && t.dataset.photo){
-    const id = t.dataset.photo;
-    state.photos[id]=state.photos[id]||[];
-    const holder = document.querySelector(`[data-thumbs="${id}"]`);
-    for(const file of t.files){
-      const reader = new FileReader();
-      reader.onload = ev => {
-        state.photos[id].push(ev.target.result);
-        const img = new Image();img.src=ev.target.result;holder.appendChild(img);
-        saveDraft(false);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-});
+  el.rerollToppingsBtn.addEventListener('click', () => {
+    const n = Number(el.randCount.value || 0);
+    pickRandomToppings(n);
+    calc();
+  });
 
-function validateItem(id){
-  const need = state.answers[id]==='NG';
-  const note = (state.notes[id]||'').trim();
-  const photos = (state.photos[id]||[]);
-  const ok = !need || (note.length>0);
-  document.getElementById('req_'+id)?.classList.toggle('show', !ok);
-}
+  el.clearAllBtn.addEventListener('click', () => {
+    el.toppingRows.querySelectorAll('tr input[type="checkbox"]').forEach(cb => cb.checked = false);
+    calc();
+  });
 
-function updateStats(){
-  const ids = TEMPLATE.flatMap(s=>s.items.map(i=>i.id));
-  const answered = ids.filter(id=>['OK','NG','NA'].includes(state.answers[id])).length;
-  const ok = ids.filter(id=>state.answers[id]==='OK').length;
-  const ng = ids.filter(id=>state.answers[id]==='NG').length;
-  const na = ids.filter(id=>state.answers[id]==='NA').length;
-  el('answered').textContent = answered; el('cntOK').textContent=ok; el('cntNG').textContent=ng; el('cntNA').textContent=na;
-  el('progbar').style.width = (answered/ids.length*100)+'%';
-}
+  el.addRowBtn.addEventListener('click', () => {
+    el.toppingRows.appendChild(makeRow('（新規トッピング）', 0, false));
+    el.toppingRows.scrollTop = el.toppingRows.scrollHeight;
+  });
 
-// ====== 6) 署名 ======
-(function setupSig(){
-  const cvs = el('sig');
-  const ctx = cvs.getContext('2d');
-  function resize(){cvs.width = cvs.clientWidth; cvs.height = cvs.clientHeight; drawFromState();}
-  window.addEventListener('resize', resize, {passive:true});
-  resize();
-  let drawing=false, last=null;
-  const pos = e=>{
-    const r=cvs.getBoundingClientRect();
-    const x = (e.touches?e.touches[0].clientX:e.clientX)-r.left;
-    const y = (e.touches?e.touches[0].clientY:e.clientY)-r.top;
-    return {x,y};
-  }
-  function line(a,b){
-    ctx.lineWidth=2;ctx.lineCap='round';ctx.strokeStyle='#111827';
-    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
-  }
-  function start(e){drawing=true; last=pos(e);} 
-  function move(e){ if(!drawing) return; const p=pos(e); line(last,p); last=p; state.meta.signature=cvs.toDataURL('image/png'); }
-  function end(){drawing=false;}
-  cvs.addEventListener('mousedown',start);cvs.addEventListener('mousemove',move);window.addEventListener('mouseup',end);
-  cvs.addEventListener('touchstart',start,{passive:true});cvs.addEventListener('touchmove',move,{passive:true});window.addEventListener('touchend',end);
-  el('sigClear').addEventListener('click',()=>{ctx.clearRect(0,0,cvs.width,cvs.height); state.meta.signature=''; saveDraft(false);});
+  el.copyBtn.addEventListener('click', copyResult);
+  el.resetBtn.addEventListener('click', resetAll);
 
-  function drawFromState(){
-    if(!state.meta.signature) return; const img=new Image(); img.onload=()=>{ctx.drawImage(img,0,0,cvs.width,cvs.height)}; img.src=state.meta.signature;
-  }
-})();
+  el.grams.addEventListener('input', calc);
+  el.kcalPer100.addEventListener('input', calc);
 
-// ====== 7) 保存と読み込み ======
-function storageKey(){
-  const c=(state.meta.client||'未設定').trim();
-  const d=(state.meta.visitDate||'').trim();
-  return `巡回監査:${c}:${d}`;
-}
-function saveDraft(showToast=true){
-  localStorage.setItem(storageKey(), JSON.stringify(state));
-  if(showToast) toast('保存しました');
-}
-function loadDraft(){
-  const raw = localStorage.getItem(storageKey());
-  if(!raw) return;
-  try{ const obj = JSON.parse(raw); Object.assign(state, obj); }catch{}
-}
-function toast(msg){
-  const t=document.createElement('div');
-  t.textContent=msg; t.style.cssText='position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111827;color:#fff;padding:8px 12px;border-radius:999px;font-size:14px;opacity:.95;z-index:30';
-  document.body.appendChild(t); setTimeout(()=>t.remove(),1500);
-}
-
-// メタの双方向
-['client','visitDate','auditor','globalNote'].forEach(id=>{
-  el(id).addEventListener('input',()=>{ state.meta[id]=el(id).value; saveDraft(false); });
-});
-
-// ====== 8) エクスポート ======
-function download(filename, content, mime='application/json'){
-  const blob = new Blob([content], {type:mime});
-  const url = URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download=filename; a.click(); URL.revokeObjectURL(url);
-}
-
-function exportJSON(){
-  const payload = { ...state, template:TEMPLATE, exportedAt:new Date().toISOString() };
-  const name = `${state.meta.client||'未設定'}_${state.meta.visitDate||''}_巡回監査.json`;
-  download(name, JSON.stringify(payload,null,2));
-}
-
-function exportCSV(){
-  const rows = [["顧問先","監査日","担当者","セクション","項目ID","項目","状態","メモ","写真枚数"]];
-  TEMPLATE.forEach(sec=>{
-    sec.items.forEach(it=>{
-      rows.push([
-        state.meta.client||'', state.meta.visitDate||'', state.meta.auditor||'', sec.section, it.id, it.label,
-        state.answers[it.id]||'', (state.notes[it.id]||'').replace(/\n/g,' '), (state.photos[it.id]||[]).length
-      ]);
-    })
-  })
-  const csv = rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const name = `${state.meta.client||'未設定'}_${state.meta.visitDate||''}_巡回監査.csv`;
-  download(name, csv, 'text/csv');
-}
-
-// ====== 9) テンプレート編集 ======
-function loadTemplateFromEditor(){
-  try{
-    const j = JSON.parse(el('tplEditor').value);
-    if(!Array.isArray(j)) throw new Error('最上位は配列である必要があります');
-    TEMPLATE = j; localStorage.setItem('巡回監査:TEMPLATE', JSON.stringify(TEMPLATE));
-    render(); toast('テンプレートを読み込みました');
-  }catch(err){ alert('テンプレート読込に失敗: '+err.message); }
-}
-function exportTemplate(){ download('巡回監査_テンプレート.json', JSON.stringify(TEMPLATE,null,2)); }
-function resetTemplate(){ if(confirm('テンプレートを初期化しますか？')){ TEMPLATE = DEFAULT_TEMPLATE; localStorage.removeItem('巡回監査:TEMPLATE'); render(); } }
-
-// ====== 10) 初期化 ======
-(function init(){
-  // 既存メタ復元
-  el('templateVer').textContent = 'v1';
-  // 今日の日付デフォルト
-  const today = new Date();
-  el('visitDate').value = new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
-  state.meta.visitDate = el('visitDate').value;
-  // 既存ドラフト読込（顧問先未設定のままでもドラフトキーは作られます）
-  loadDraft();
-  // メタUIに反映
-  ['client','visitDate','auditor','globalNote'].forEach(id=>{ if(state.meta[id]) el(id).value = state.meta[id]; });
-  render();
-
-  // ボタン
-  el('save').onclick=()=>saveDraft();
-  el('export').onclick=exportJSON;
-  el('csv').onclick=exportCSV;
-  el('print').onclick=()=>window.print();
-  el('reset').onclick=()=>{ if(confirm('入力内容を全てクリアします。よろしいですか？')){ Object.assign(state,{answers:{},notes:{},photos:{},meta:{client:'',visitDate:'',auditor:'',globalNote:'',signature:''}}); localStorage.removeItem(storageKey()); render(); }}
-
-  el('tplLoad').onclick=loadTemplateFromEditor;
-  el('tplExport').onclick=exportTemplate;
-  el('tplReset').onclick=resetTemplate;
+  // ---- Boot ----
+  initToppings();
+  calc();
 })();
 </script>
 </body>
